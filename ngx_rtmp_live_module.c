@@ -1085,7 +1085,7 @@ ngx_rtmp_live_play(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
     ngx_rtmp_live_app_conf_t       *lacf;
     ngx_rtmp_live_ctx_t            *ctx;
 
-    ngx_int_t                       nclients;
+    ngx_int_t                       nclients, total_nclients;
     ngx_rtmp_live_stream_t         *stream;
 
     lacf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_live_module);
@@ -1094,6 +1094,7 @@ ngx_rtmp_live_play(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
         goto next;
     }
 
+    total_nclients = 0;
     {
         ngx_int_t n = 0;
         for (n = 0; n < lacf->nbuckets; ++n) {
@@ -1107,6 +1108,7 @@ ngx_rtmp_live_play(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
                    "live: play: name='%s' nclients=%i",
                    stream->name, nclients);
             }
+            total_nclients += nclients;
         }
     }
     ngx_log_debug4(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
@@ -1129,7 +1131,7 @@ ngx_rtmp_live_play(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
         ngx_rtmp_send_status(s, "NetStream.Play.Start",
                              "status", "Start live");
         ngx_rtmp_send_sample_access(s);
-        ngx_rtmp_send_client_count(s, nclients);
+        ngx_rtmp_send_client_count(s, total_nclients);
     }
 
 next:
