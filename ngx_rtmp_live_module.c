@@ -1098,9 +1098,9 @@ ngx_rtmp_live_play(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
     {
         ngx_int_t n = 0;
         for (n = 0; n < lacf->nbuckets; ++n) {
+            nclients = 0;
             for (stream = lacf->streams[n]; stream; stream = stream->next) {
                 ngx_rtmp_live_ctx_t            *ctx;
-                nclients = 0;
                 for (ctx = stream->ctx; ctx; ctx = ctx->next, ++nclients) {
                     //s = ctx->session;
                 }
