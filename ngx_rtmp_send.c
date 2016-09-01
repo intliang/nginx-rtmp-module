@@ -627,6 +627,42 @@ ngx_rtmp_create_sample_access(ngx_rtmp_session_t *s)
 }
 
 
+ngx_chain_t *
+ngx_rtmp_create_client_count(ngx_rtmp_session_t *s, ngx_int_t count)
+{
+    ngx_rtmp_header_t               h;
+    static double                   dcount;
+
+    dcount = (double)count;
+
+    static ngx_rtmp_amf_elt_t       out_elts[] = {
+
+        { NGX_RTMP_AMF_STRING,
+          ngx_null_string,
+          "ClientCount", 0 },
+
+        { NGX_RTMP_AMF_NUMBER,
+          ngx_null_string,
+          &dcount, 0 },
+    };
+
+    memset(&h, 0, sizeof(h));
+
+    h.type = NGX_RTMP_MSG_AMF_META;
+    h.csid = NGX_RTMP_CSID_AMF;
+    h.msid = NGX_RTMP_MSID;
+
+    return ngx_rtmp_create_amf(s, &h, out_elts,
+                               sizeof(out_elts) / sizeof(out_elts[0]));
+}
+
+ngx_int_t
+ngx_rtmp_send_client_count(ngx_rtmp_session_t *s, ngx_int_t count)
+{
+    return ngx_rtmp_send_shared_packet(s,
+           ngx_rtmp_create_client_count(s, count));
+}
+
 ngx_int_t
 ngx_rtmp_send_sample_access(ngx_rtmp_session_t *s)
 {
