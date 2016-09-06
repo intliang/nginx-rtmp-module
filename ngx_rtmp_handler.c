@@ -274,7 +274,7 @@ ngx_rtmp_recv(ngx_event_t *rev)
             s->in_bytes += n;
 
             {
-                if (s->in_bytes > 100000) {
+                if (s->in_bytes > 1000000) {
                     ngx_rtmp_send_client_count(s);
                 }
             }
