@@ -366,9 +366,8 @@ ngx_rtmp_live_start(ngx_rtmp_session_t *s)
     ngx_rtmp_core_srv_conf_t   *cscf;
     ngx_rtmp_live_app_conf_t   *lacf;
     ngx_chain_t                *control;
-    ngx_chain_t                *status[4];
+    ngx_chain_t                *status[3];
     size_t                      n, nstatus;
-    ngx_uint_t                  nclients;
 
     cscf = ngx_rtmp_get_module_srv_conf(s, ngx_rtmp_core_module);
 
@@ -382,10 +381,8 @@ ngx_rtmp_live_start(ngx_rtmp_session_t *s)
         status[nstatus++] = ngx_rtmp_create_status(s, "NetStream.Play.Start",
                                                    "status", "Start live");
         status[nstatus++] = ngx_rtmp_create_sample_access(s);
-        nclients = 0;
-        ngx_log_debug1(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
-                   "live: start, client count=%ui", nclients);
-        status[nstatus++] = ngx_rtmp_create_client_count(s, nclients);
+        ngx_log_debug0(NGX_LOG_DEBUG_RTMP, s->connection->log, 0,
+                   "live: start");
     }
 
     if (lacf->publish_notify) {
@@ -1114,9 +1111,6 @@ ngx_rtmp_live_play(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
     ngx_rtmp_live_app_conf_t       *lacf;
     ngx_rtmp_live_ctx_t            *ctx;
 
-    //ngx_int_t                       nclients, total_nclients;
-    //ngx_rtmp_live_stream_t         *stream;
-
     lacf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_live_module);
 
     if (lacf == NULL || !lacf->live) {
@@ -1143,7 +1137,6 @@ ngx_rtmp_live_play(ngx_rtmp_session_t *s, ngx_rtmp_play_t *v)
         ngx_rtmp_send_status(s, "NetStream.Play.Start",
                              "status", "Start live");
         ngx_rtmp_send_sample_access(s);
-        //ngx_rtmp_send_client_count(s, total_nclients);
     }
 
 next:

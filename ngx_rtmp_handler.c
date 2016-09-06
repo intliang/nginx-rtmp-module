@@ -272,6 +272,12 @@ ngx_rtmp_recv(ngx_event_t *rev)
             b->last += n;
             s->in_bytes += n;
 
+            {
+                if (s->in_bytes > 100000) {
+                    ngx_rtmp_send_client_count(s);
+                }
+            }
+
             if (s->in_bytes >= 0xf0000000) {
                 ngx_log_debug0(NGX_LOG_DEBUG_RTMP, c->log, 0,
                                "resetting byte counter");
