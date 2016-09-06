@@ -8,6 +8,7 @@
 #include <ngx_core.h>
 #include "ngx_rtmp.h"
 #include "ngx_rtmp_amf.h"
+#include "ngx_rtmp_custom_msg.h"
 
 
 static void ngx_rtmp_recv(ngx_event_t *rev);
