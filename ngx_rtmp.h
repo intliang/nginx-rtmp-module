@@ -249,6 +249,7 @@ typedef struct {
     ngx_uint_t              in_chunk_size;
     ngx_pool_t             *in_pool;
     uint32_t                in_bytes;
+    uint32_t                in_bytes_check;
     uint32_t                in_last_ack;
 
     ngx_pool_t             *in_old_pool;

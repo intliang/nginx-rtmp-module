@@ -272,9 +272,10 @@ ngx_rtmp_recv(ngx_event_t *rev)
             ngx_rtmp_update_bandwidth(&ngx_rtmp_bw_in, n);
             b->last += n;
             s->in_bytes += n;
+            s->in_bytes_check += n;
 
             {
-                if (s->in_bytes > 1000000) {
+                if (s->in_bytes_check > 1000000) {
                     ngx_rtmp_send_client_count(s);
                 }
             }
