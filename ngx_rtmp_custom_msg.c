@@ -9,6 +9,7 @@
 #include "ngx_rtmp.h"
 #include "ngx_rtmp_amf.h"
 #include "ngx_rtmp_streams.h"
+#include "ngx_rtmp_live_module.h"
 #include "ngx_rtmp_custom_msg.h"
 
 static ngx_chain_t * ngx_rtmp_create_client_count(ngx_rtmp_session_t *s,
