@@ -72,7 +72,6 @@ ngx_int_t
 ngx_rtmp_send_client_count(ngx_rtmp_session_t *s)
 {
     ngx_rtmp_live_app_conf_t       *lacf;
-    ngx_rtmp_live_ctx_t            *ctx;
 
     lacf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_live_module);
 
