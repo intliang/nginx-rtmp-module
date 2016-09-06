@@ -1071,35 +1071,6 @@ ngx_rtmp_live_publish(ngx_rtmp_session_t *s, ngx_rtmp_publish_t *v)
                              "status", "Start publishing");
     }
 
-    {
-        ngx_int_t                       nclients, total_nclients;
-        ngx_rtmp_live_stream_t         *stream;
-        total_nclients = 0;
-        ngx_int_t n = 0;
-        for (n = 0; n < lacf->nbuckets; ++n) {
-            nclients = 0;
-            for (stream = lacf->streams[n]; stream; stream = stream->next) {
-                ngx_rtmp_live_ctx_t            *ctx;
-                for (ctx = stream->ctx; ctx; ctx = ctx->next) {
-                    if (ngx_strcmp(stream->name, v->name)) {
-                        continue; 
-                    }
-
-                    if (!ctx->publishing) {
-                        ++nclients;
-                    }
-                    //s = ctx->session;
-                }
-                ngx_log_error(NGX_LOG_ERR, s->connection->log, 0,
-                   "live: publish, name='%s' nclients=%i",
-                   stream->name, nclients);
-            }
-            total_nclients += nclients;
-        }
-
-        ngx_rtmp_send_client_count(s, total_nclients);
-    }
-
 next:
     return next_publish(s, v);
 }
