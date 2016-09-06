@@ -81,6 +81,7 @@ ngx_rtmp_send_client_count(ngx_rtmp_session_t *s)
 
     ngx_int_t                       nclients, total_nclients;
     ngx_rtmp_live_stream_t         *stream;
+    nclients = 0;
     total_nclients = 0;
     ngx_int_t n = 0;
     for (n = 0; n < lacf->nbuckets; ++n) {
