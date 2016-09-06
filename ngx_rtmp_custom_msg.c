@@ -77,7 +77,7 @@ ngx_rtmp_send_client_count(ngx_rtmp_session_t *s)
     lacf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_live_module);
 
     if (lacf == NULL || !lacf->live) {
-        goto next;
+        return NGX_ERROR;
     }
 
     ngx_int_t                       nclients, total_nclients;
@@ -87,7 +87,7 @@ ngx_rtmp_send_client_count(ngx_rtmp_session_t *s)
     for (n = 0; n < lacf->nbuckets; ++n) {
         nclients = 0;
         for (stream = lacf->streams[n]; stream; stream = stream->next) {
-            if (ngx_strcmp(stream->name, v->name)) {
+            if (ngx_strncmp(stream->name, s->app.data, s->app.len)) {
                 continue; 
             }
 
