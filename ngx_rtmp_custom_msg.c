@@ -84,12 +84,12 @@ ngx_rtmp_send_client_count(ngx_rtmp_session_t *s)
     nclients = 0;
     ngx_int_t n = 0;
 
-    len = ngx_strlen(s->name);
-    stream = &lacf->streams[ngx_hash_key(s->name, len) % lacf->nbuckets];
+    stream = &lacf->streams[ngx_hash_key(s->name, ngx_strlen(s->name)) % lacf->nbuckets];
 
     for (; stream; stream = stream->next) {
         if (ngx_strcmp(stream->name, s->name)) {
             continue; 
+        }
 
         ngx_rtmp_live_ctx_t            *ctx;
         for (ctx = stream->ctx; ctx; ctx = ctx->next) {
