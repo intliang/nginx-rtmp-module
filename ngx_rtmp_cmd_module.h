@@ -14,7 +14,7 @@
 #include "ngx_rtmp.h"
 
 
-#define NGX_RTMP_MAX_NAME           256
+//#define NGX_RTMP_MAX_NAME           256
 #define NGX_RTMP_MAX_URL            256
 #define NGX_RTMP_MAX_ARGS           NGX_RTMP_MAX_NAME
 

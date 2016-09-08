@@ -17,7 +17,6 @@
 #include "ngx_rtmp_amf.h"
 #include "ngx_rtmp_bandwidth.h"
 
-#include "ngx_rtmp_cmd_module.h"
 
 #if (NGX_WIN32)
 typedef __int8              int8_t;
@@ -153,6 +152,7 @@ typedef struct {
 #define NGX_RTMP_USER_UNKNOWN           8
 #define NGX_RTMP_USER_BUFFER_END        31
 
+#define NGX_RTMP_MAX_NAME           256
 
 /* Chunk header:
  *   max 3  basic header
