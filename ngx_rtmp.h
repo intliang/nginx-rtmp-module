@@ -17,6 +17,7 @@
 #include "ngx_rtmp_amf.h"
 #include "ngx_rtmp_bandwidth.h"
 
+#include "ngx_rtmp_cmd_module.h"
 
 #if (NGX_WIN32)
 typedef __int8              int8_t;
@@ -218,6 +219,7 @@ typedef struct {
     uint32_t                acodecs;
     uint32_t                vcodecs;
     ngx_str_t               page_url;
+    u_char                  name[NGX_RTMP_MAX_NAME];
 
     /* handshake data */
     ngx_buf_t              *hs_buf;

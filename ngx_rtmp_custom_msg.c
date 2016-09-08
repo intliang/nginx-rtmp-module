@@ -79,34 +79,29 @@ ngx_rtmp_send_client_count(ngx_rtmp_session_t *s)
         return NGX_ERROR;
     }
 
-    ngx_int_t                       nclients, total_nclients;
+    ngx_int_t                       nclients;
     ngx_rtmp_live_stream_t         *stream;
     nclients = 0;
-    total_nclients = 0;
     ngx_int_t n = 0;
-    for (n = 0; n < lacf->nbuckets; ++n) {
-        nclients = 0;
-        for (stream = lacf->streams[n]; stream; stream = stream->next) {
-            /*if (ngx_strncmp(stream->name, s->app.data, s->app.len)) {
-                continue; 
-            }*/
 
-            ngx_rtmp_live_ctx_t            *ctx;
-            for (ctx = stream->ctx; ctx; ctx = ctx->next) {
-                
-                if (!ctx->publishing) {
-                    ++nclients;
-                }
-                //s = ctx->session;
+    len = ngx_strlen(s->name);
+    stream = &lacf->streams[ngx_hash_key(s->name, len) % lacf->nbuckets];
+
+    for (; stream; stream = stream->next) {
+        if (ngx_strcmp(stream->name, s->name)) {
+            continue; 
+
+        ngx_rtmp_live_ctx_t            *ctx;
+        for (ctx = stream->ctx; ctx; ctx = ctx->next) {
+            if (!ctx->publishing) {
+                ++nclients;
             }
-            ngx_log_error(NGX_LOG_ERR, s->connection->log, 0,
-               "live: publish, name='%s' nclients=%i",
-               stream->name, nclients);
-            break; // got the named stream
         }
-        total_nclients += nclients;
     }
 
+    ngx_log_error(NGX_LOG_ERR, s->connection->log, 0,
+       "live, name='%s' nclients=%i",
+       stream->name, nclients);
     return ngx_rtmp_send_shared_packet(s,
            ngx_rtmp_create_client_count(s, nclients));
 }
