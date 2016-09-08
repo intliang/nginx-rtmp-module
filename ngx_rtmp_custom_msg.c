@@ -100,7 +100,7 @@ ngx_rtmp_send_client_count(ngx_rtmp_session_t *s)
 
     ngx_log_error(NGX_LOG_ERR, s->connection->log, 0,
        "live, name='%s' nclients=%i",
-       stream->name, nclients);
+       s->name, nclients);
     return ngx_rtmp_send_shared_packet(s,
            ngx_rtmp_create_client_count(s, nclients));
 }
