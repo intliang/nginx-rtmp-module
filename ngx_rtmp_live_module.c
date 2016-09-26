@@ -234,7 +234,8 @@ ngx_rtmp_live_get_stream(ngx_rtmp_session_t *s, u_char *name, int create)
     stream = &lacf->streams[ngx_hash_key(name, len) % lacf->nbuckets];
 
     for (; *stream; stream = &(*stream)->next) {
-        if (ngx_strcmp(name, (*stream)->name) == 0) {
+        if ((ngx_strlen((*stream)->name == len)) &&
+                (ngx_strcmp(name, (*stream)->name) == 0)) {
             return stream;
         }
     }
