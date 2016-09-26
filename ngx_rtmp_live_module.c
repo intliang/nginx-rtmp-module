@@ -236,8 +236,7 @@ ngx_rtmp_live_get_stream(ngx_rtmp_session_t *s, u_char *name, int create)
     ngx_memcpy(s->name, name, ngx_min(sizeof(s->name) - 1, len));
 
     for (; *stream; stream = &(*stream)->next) {
-        if ((ngx_strlen((*stream)->name) == len) &&
-                (ngx_strcmp(name, (*stream)->name) == 0)) {
+        if (ngx_strcmp(name, (*stream)->name) == 0) {
             return stream;
         }
     }
